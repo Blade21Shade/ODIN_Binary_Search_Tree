@@ -29,7 +29,36 @@ export class Tree {
     }
 
     insert(value) {
+        Tree.#insertInner(value, this.root);
+    }
 
+    static #insertInner(value, nodeToCompare) {
+        let nodeVal = nodeToCompare.getData();
+        let checkLeft; // True for left leaf, false for right leaf
+        let childNodeToCompare;
+
+        // Check which leaf to compare against, leave if same as current node's value
+        if (value < nodeVal) {
+            checkLeft = true;
+            childNodeToCompare = nodeToCompare.getLeft();
+        } else if (value > nodeVal) {
+            checkLeft = false;
+            childNodeToCompare = nodeToCompare.getRight();
+        } else { // Same value
+            return;
+        }
+
+        // Add leaf if one doesn't exist, otherwise compare against the leaf
+        if (childNodeToCompare === null) {
+            let node = new Node(value);
+            if (checkLeft) {
+                nodeToCompare.setLeft(node);
+            } else {
+                nodeToCompare.setRight(node);
+            }
+        } else {
+           Tree.#insertInner(value, childNodeToCompare); 
+        }
     }
 
     delete(value) {
