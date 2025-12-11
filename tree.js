@@ -62,7 +62,65 @@ export class Tree {
     }
 
     delete(value) {
+        Tree.#deleteInner(value, this.root);
+    }
 
+    static #deleteInner(value, nodeToCompare) {
+        // The value wasn't found in the tree
+        if (nodeToCompare === null) {
+            return null;
+        }
+        
+        // Get values needed for comparison
+        let nodeVal = nodeToCompare.getData();
+        let left = nodeToCompare.getLeft();
+        let right = nodeToCompare.getRight();
+
+        // See if we need to go to a child node or if we are at the one we want deleted
+        if (value < nodeVal) {
+            let updatedLeft = Tree.#deleteInner(value, left);
+            nodeToCompare.setLeft(updatedLeft);
+        } else if (value > nodeVal) {
+            let updatedRight = Tree.#deleteInner(value, right);
+            nodeToCompare.setRight(updatedRight);
+        } else { // This is the node we want deleted
+            // Act based on existing children
+            if (left !== null && right === null) { // Only left child exists
+                return left;
+            } else if (left === null && right !== null) { // Only right child exists
+                return right;
+            } else if (left !== null && right !== null) { // Both children exist
+
+                // Replace node
+                let successor = Tree.#findInOrderSuccessor(nodeToCompare);
+                nodeToCompare.setData(successor.getData());
+                
+                // Remove leaf that replaced the node
+                let updatedRight = Tree.#deleteInner(successor.getData(), right);
+                nodeToCompare.setRight(updatedRight);
+            } else { // Neither child exists
+                return null;
+            }
+        }
+
+        // We went in either the left or right branch, so return this node with any changes done to it
+        return nodeToCompare;
+    }
+
+    static #findInOrderSuccessor(nodeToCompare) {
+        // Get right branch before looping
+        let toReturn = nodeToCompare.getRight();
+        let left = toReturn.getLeft();
+
+        if (left !== null) {
+            let nextLeft = left.getLeft();
+            while (nextLeft!== null) {
+                left = nextLeft;
+                nextLeft = left.getLeft();
+            }
+            toReturn = left;
+        }
+        return toReturn;
     }
 
     find(value) {

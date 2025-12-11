@@ -19,3 +19,12 @@ let arr = [1, 3, 5, 7, 9, 11, 13, 15, 17];
 let tree = new Tree(arr);
 
 prettyPrint(tree.root);
+
+// Testing code
+let delVal = 13;
+// Tested: 0, 17, 1, 15, 11, 9, 13
+
+console.log(`\nOriginal\n===============================\nUpdated; Delete: ${delVal}\n`)
+
+tree.delete(delVal);
+prettyPrint(tree.root);
