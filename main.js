@@ -14,29 +14,17 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 };
 
-function printVal(node) {
-  console.log(node.data);
-}
-
 let arr = [1, 3, 5, 7, 9, 11, 13, 15, 17];
 let tree = new Tree(arr);
 
 prettyPrint(tree.root);
 
 
-tree.inOrderForEach(printVal);
-console.log("====");
-tree.preOrderForEach(printVal);
-console.log("====");
-tree.postOrderForEach(printVal);
-console.log("====");
+// Testing code
+let testVal = 9;
 
+console.log(`\nOriginal\n===============================\nUpdated: ${testVal}\n`)
 
-// // Testing code
-// let testVal = 13;
-// // Tested: 0, 17, 1, 15, 11, 9, 13
-
-// console.log(`\nOriginal\n===============================\nUpdated: ${testVal}\n`)
-
-// let findVal = tree.find(testVal);
-// prettyPrint(findVal);
+let findVal = tree.height(testVal);
+console.log(findVal);
+//prettyPrint(findVal);

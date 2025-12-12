@@ -257,7 +257,44 @@ export class Tree {
     }
 
     height(value) {
+        // See if the value is present in the tree
+        let nodeWithValue = Tree.#findInner(value, this.root);
+        if (nodeWithValue === null) {
+            return null;
+        }
 
+        // Node with the value exists, find height
+        return Tree.#innerHeight(nodeWithValue);   
+    }
+
+    static #innerHeight(node) {
+        let leftHeight = 0;
+        let rightHeight = 0;
+
+        let left = node.getLeft();
+        let right = node.getRight();
+
+        if (left !== null) {
+            leftHeight++;
+            leftHeight += Tree.#innerHeight(left);
+        }
+
+        if (right !== null) {
+            rightHeight++;
+            rightHeight += Tree.#innerHeight(right);
+        }
+
+        // At a leaf
+        if (left === null && right === null) {
+            return 0;
+        }
+
+        // Return greater height
+        if (leftHeight > rightHeight) {
+            return leftHeight;
+        } else {
+            return rightHeight;
+        }
     }
 
     depth(value) {
