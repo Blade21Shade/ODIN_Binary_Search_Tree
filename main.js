@@ -21,10 +21,10 @@ let tree = new Tree(arr);
 prettyPrint(tree.root);
 
 // Testing code
-let delVal = 13;
+let testVal = 13;
 // Tested: 0, 17, 1, 15, 11, 9, 13
 
-console.log(`\nOriginal\n===============================\nUpdated; Delete: ${delVal}\n`)
+console.log(`\nOriginal\n===============================\nUpdated: ${testVal}\n`)
 
-tree.delete(delVal);
-prettyPrint(tree.root);
+let findVal = tree.find(testVal);
+prettyPrint(findVal);

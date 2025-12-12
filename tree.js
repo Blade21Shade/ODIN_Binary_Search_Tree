@@ -124,7 +124,23 @@ export class Tree {
     }
 
     find(value) {
+        return Tree.#findInner(value, this.root);
+    }
 
+    static #findInner(value, nodeToCompare) {
+        if (nodeToCompare === null) {
+            return null;
+        }
+
+        let nodeVal = nodeToCompare.getData();
+
+        if (value < nodeVal) {
+            return Tree.#findInner(value, nodeToCompare.getLeft());
+        } else if (value > nodeVal) {
+            return Tree.#findInner(value, nodeToCompare.getRight());
+        } else { // Correct node
+            return nodeToCompare;
+        }
     }
 
     levelOrderForEach(callback) {
