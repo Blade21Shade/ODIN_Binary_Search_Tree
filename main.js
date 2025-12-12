@@ -31,8 +31,10 @@ for (let i = 17; i >= 11; i-=2) {
 
 prettyPrint(tree.root);
 
-let balance = tree.isBalanced();
-console.log(balance);
+console.log(`\nOriginal\n===============================\nUpdated\n`);
+
+tree.rebalance();
+prettyPrint(tree.root);
 
 // // Testing code
 // let testVal = 9;

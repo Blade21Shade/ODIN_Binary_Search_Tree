@@ -431,6 +431,21 @@ export class Tree {
     }
 
     rebalance() {
+        // Store values from the tree in an array
+        let values = [];
 
+        function addNodeToArray(node) {
+            values.push(node.getData());
+        }
+
+        Tree.#inOrderForEachInner(addNodeToArray ,this.root);
+
+        // Remove all values from the tree
+        for (let i = 0; i < values.length; i++) {
+            Tree.#deleteInner(values[i], this.root);
+        }
+
+        // Add values back to the tree, rebalancing it
+        this.root = Tree.buildTree(values);
     }
 }
