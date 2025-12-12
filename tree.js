@@ -298,7 +298,32 @@ export class Tree {
     }
 
     depth(value) {
+        return Tree.#innerDepth(value, 0, this.root);
+    }
 
+    static #innerDepth(value, depth, nodeToCompare) {
+        if (nodeToCompare === null) {
+            depth = null;
+            return depth;
+        }
+
+        let nodeVal = nodeToCompare.getData();
+        let nextNode;
+
+        if (value < nodeVal) {
+            nextNode = nodeToCompare.getLeft();
+        } else if (value > nodeVal) {
+            nextNode = nodeToCompare.getRight();
+        } else { // Correct node
+            return 0;
+        }
+
+        depth = Tree.#innerDepth(value, depth, nextNode);
+        if (depth !== null) {
+            depth++;
+        }
+
+        return depth;
     }
 
     isBalanced() {

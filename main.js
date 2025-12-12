@@ -21,10 +21,10 @@ prettyPrint(tree.root);
 
 
 // Testing code
-let testVal = 9;
+let testVal = 19;
 
 console.log(`\nOriginal\n===============================\nUpdated: ${testVal}\n`)
 
-let findVal = tree.height(testVal);
+let findVal = tree.depth(testVal);
 console.log(findVal);
 //prettyPrint(findVal);
