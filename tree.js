@@ -144,7 +144,35 @@ export class Tree {
     }
 
     levelOrderForEach(callback) {
+        if (callback === null) {
+            throw new Error("levelOrderForEach must be given a callback function")
+        }
 
+        Tree.#innerLevelOrderForEach(callback, [this.root]);
+    }
+
+    static #innerLevelOrderForEach(callback, queue) {
+        if (queue.length === 0) {
+            return;
+        }
+
+        let currentNode = queue.shift();
+
+        callback(currentNode);
+
+        // Add children to queue
+        let left = currentNode.getLeft();
+        let right = currentNode.getRight();
+        if (left !== null) {
+            queue.push(left);
+        }
+
+        if (right !== null) {
+            queue.push(right);
+        }
+
+        // Process children
+        Tree.#innerLevelOrderForEach(callback, queue);
     }
 
     inOrderForEach(callback) {

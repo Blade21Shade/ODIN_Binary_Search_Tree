@@ -18,13 +18,17 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 let arr = [1, 3, 5, 7, 9, 11, 13, 15, 17];
 let tree = new Tree(arr);
 
-prettyPrint(tree.root);
+// prettyPrint(tree.root);
 
-// Testing code
-let testVal = 13;
-// Tested: 0, 17, 1, 15, 11, 9, 13
 
-console.log(`\nOriginal\n===============================\nUpdated: ${testVal}\n`)
+tree.levelOrderForEach(prettyPrint);
 
-let findVal = tree.find(testVal);
-prettyPrint(findVal);
+
+// // Testing code
+// let testVal = 13;
+// // Tested: 0, 17, 1, 15, 11, 9, 13
+
+// console.log(`\nOriginal\n===============================\nUpdated: ${testVal}\n`)
+
+// let findVal = tree.find(testVal);
+// prettyPrint(findVal);
