@@ -298,29 +298,32 @@ export class Tree {
     }
 
     depth(value) {
-        return Tree.#innerDepth(value, 0, this.root);
+        return Tree.#innerDepth(value, this.root);
     }
 
-    static #innerDepth(value, depth, nodeToCompare) {
-        if (nodeToCompare === null) {
-            depth = null;
-            return depth;
-        }
-
+    static #innerDepth(value, nodeToCompare) {
         let nodeVal = nodeToCompare.getData();
-        let nextNode;
+        let foundOrMissing = false;
+        let depth = 0;
 
-        if (value < nodeVal) {
-            nextNode = nodeToCompare.getLeft();
-        } else if (value > nodeVal) {
-            nextNode = nodeToCompare.getRight();
-        } else { // Correct node
-            return 0;
-        }
+        while (!foundOrMissing) {
+            if (value < nodeVal) {
+                nodeToCompare = nodeToCompare.getLeft();
+            } else if (value > nodeVal) {
+                nodeToCompare = nodeToCompare.getRight();
+            } else { // At correct node
+                foundOrMissing = true;
+            }
 
-        depth = Tree.#innerDepth(value, depth, nextNode);
-        if (depth !== null) {
-            depth++;
+            if (nodeToCompare === null) {
+                depth = null;
+                foundOrMissing = true;
+            }
+
+            if (!foundOrMissing) {
+                nodeVal = nodeToCompare.getData();
+                depth++;
+            } 
         }
 
         return depth;
