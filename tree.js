@@ -128,19 +128,29 @@ export class Tree {
     }
 
     static #findInner(value, nodeToCompare) {
-        if (nodeToCompare === null) {
-            return null;
-        }
-
         let nodeVal = nodeToCompare.getData();
+        let foundOrMissing = false;
+        let toReturn = null; // Base case is missing, changed if found
 
-        if (value < nodeVal) {
-            return Tree.#findInner(value, nodeToCompare.getLeft());
-        } else if (value > nodeVal) {
-            return Tree.#findInner(value, nodeToCompare.getRight());
-        } else { // Correct node
-            return nodeToCompare;
+        while (!foundOrMissing) {
+            if (value < nodeVal) {
+                nodeToCompare = nodeToCompare.getLeft();
+            } else if (value > nodeVal) {
+                nodeToCompare = nodeToCompare.getRight();
+            } else { // At correct node
+                foundOrMissing = true;
+                toReturn = nodeToCompare;
+            }
+
+            // If a node couldn't be found return, otherwise one was found this loop so update the comparison value
+            if (nodeToCompare === null) {
+                foundOrMissing = true;
+            } else {
+                nodeVal = nodeToCompare.getData();
+            }
         }
+
+        return toReturn;
     }
 
     levelOrderForEach(callback) {

@@ -25,6 +25,6 @@ let testVal = 19;
 
 console.log(`\nOriginal\n===============================\nUpdated: ${testVal}\n`)
 
-let findVal = tree.depth(testVal);
-console.log(findVal);
-//prettyPrint(findVal);
+let findVal = tree.find(testVal);
+//console.log(findVal);
+prettyPrint(findVal);
