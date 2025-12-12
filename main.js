@@ -14,17 +14,31 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 };
 
-let arr = [1, 3, 5, 7, 9, 11, 13, 15, 17];
+/*
+1, 3, 5, 7, 9, 11, 13, 15, 17
+19, 21, 23, 25, 27, 29, 31, 33
+*/
+
+let arr = [19, 21, 23, 25, 27, 29, 31, 33];
 let tree = new Tree(arr);
+for (let i = 1; i <= 9; i+=2) {
+  tree.insert(i);
+}
+
+for (let i = 17; i >= 11; i-=2) {
+  tree.insert(i);
+}
 
 prettyPrint(tree.root);
 
+let balance = tree.isBalanced();
+console.log(balance);
 
-// Testing code
-let testVal = 19;
+// // Testing code
+// let testVal = 9;
 
-console.log(`\nOriginal\n===============================\nUpdated: ${testVal}\n`)
+// console.log(`\nOriginal\n===============================\nUpdated: ${testVal}\n`)
 
-let findVal = tree.find(testVal);
-//console.log(findVal);
-prettyPrint(findVal);
+// let findVal = tree.find(testVal);
+// //console.log(findVal);
+// prettyPrint(findVal);
