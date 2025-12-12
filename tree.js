@@ -188,15 +188,72 @@ export class Tree {
     }
 
     inOrderForEach(callback) {
+        if (callback === null) {
+            throw new Error("levelOrderForEach must be given a callback function")
+        }
 
+        Tree.#inOrderForEachInner(callback, this.root);
     }
 
     preOrderForEach(callback) {
+        if (callback === null) {
+            throw new Error("levelOrderForEach must be given a callback function")
+        }
 
+        Tree.#preOrderForEachInner(callback, this.root);
     }
 
     postOrderForEach(callback) {
+        if (callback === null) {
+            throw new Error("levelOrderForEach must be given a callback function")
+        }
 
+        Tree.#postOrderForEachInner(callback, this.root);
+    }
+
+    static #inOrderForEachInner(callback, currentNode) {
+        let left = currentNode.getLeft();
+        let right = currentNode.getRight();
+
+        if (left !== null) {
+            Tree.#inOrderForEachInner(callback, left);
+        }
+
+        callback(currentNode);
+
+        if (right !== null) {
+            Tree.#inOrderForEachInner(callback, right);
+        }
+    }
+
+    static #preOrderForEachInner(callback, currentNode) {
+        let left = currentNode.getLeft();
+        let right = currentNode.getRight();
+
+        callback(currentNode);
+
+        if (left !== null) {
+            Tree.#preOrderForEachInner(callback, left);
+        }
+
+        if (right !== null) {
+            Tree.#preOrderForEachInner(callback, right);
+        }
+    }
+
+    static #postOrderForEachInner(callback, currentNode) {
+        let left = currentNode.getLeft();
+        let right = currentNode.getRight();
+
+        if (left !== null) {
+            Tree.#postOrderForEachInner(callback, left);
+        }
+
+        if (right !== null) {
+            Tree.#postOrderForEachInner(callback, right);
+        }
+
+        callback(currentNode);
     }
 
     height(value) {
