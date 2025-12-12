@@ -148,10 +148,10 @@ export class Tree {
             throw new Error("levelOrderForEach must be given a callback function")
         }
 
-        Tree.#innerLevelOrderForEach(callback, [this.root]);
+        Tree.#innerLevelOrderForEachIteration(callback, [this.root]);
     }
 
-    static #innerLevelOrderForEach(callback, queue) {
+    static #innerLevelOrderForEachRecursion(callback, queue) {
         if (queue.length === 0) {
             return;
         }
@@ -160,7 +160,22 @@ export class Tree {
 
         callback(currentNode);
 
-        // Add children to queue
+        Tree.#addChildrenToQueue(currentNode, queue);
+
+        // Process children
+        Tree.#innerLevelOrderForEachRecursion(callback, queue);
+    }
+
+    static #innerLevelOrderForEachIteration(callback, queue) {
+        while (queue.length > 0) {
+            let currentNode = queue.shift();
+            callback(currentNode);
+
+            Tree.#addChildrenToQueue(currentNode, queue);
+        }
+    }
+
+    static #addChildrenToQueue(currentNode, queue) {
         let left = currentNode.getLeft();
         let right = currentNode.getRight();
         if (left !== null) {
@@ -170,9 +185,6 @@ export class Tree {
         if (right !== null) {
             queue.push(right);
         }
-
-        // Process children
-        Tree.#innerLevelOrderForEach(callback, queue);
     }
 
     inOrderForEach(callback) {
