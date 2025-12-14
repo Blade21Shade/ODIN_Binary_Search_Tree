@@ -342,13 +342,9 @@ export class Tree {
     isBalanced() {
         // See #innerIsBalanced() for specific notes on balance checking functionality
         // This is effectively the last step in a process, but the process may not go through every possible step if unbalance is found
-        let [leftHeight, rightHeight, heightDiff] = Tree.#innerIsBalanced(this.root);
+        let heightDiff = Tree.#innerIsBalanced(this.root)[1];
 
         if (heightDiff > 1) {
-            return false;
-        }
-
-        if (Math.abs(leftHeight - rightHeight) > 1) {
             return false;
         } else {
             return true;
@@ -357,66 +353,50 @@ export class Tree {
 
     static #innerIsBalanced(currentNode) {
         // This function does an inOrder traversal and checks heights going up the tree for efficiency
-        // By doing so it can be more efficient, but the logic is more complex
-        // (When a branch is seen as unbalanced some future checks don't occur)
+        // This also means that once a single branch is seen as unbalanced, branches which would be evaluated after are skipped
 
-        // Prepare for looking at children
         let left = currentNode.getLeft();
         let right = currentNode.getRight();
         
-        // Compared and checked to see if a height difference exists per node and to see if each node is balanced
+        // Compared to see if a height difference exists in this node
         let leftHeight = 0;
         let rightHeight = 0;
+
+        // Returned for the next node "up" to use
         let heightDiff = 0;
-        let heightArray = [leftHeight, rightHeight, heightDiff];
+        let thisHeight = 0;
+        let heightArray = [thisHeight, heightDiff];
 
         // At a leaf
             // Note: It's easiest to trace this function by starting at a leaf
         if (left === null && right === null) {
             // console.log(`${currentNode.getData()} : [${heightArray}]`);
             // Logging is ok for tracing, but it breaks down once unbalance is found
-            return heightArray; // All 0 to begin with
+            return heightArray; // Both 0
         }
 
         // Find height of branches
         if (left !== null) {
-            // In order traversal starts here
             let leftHeightArray = Tree.#innerIsBalanced(left);
             
-            // Find the height of this branch; the subtree variables below are the subtrees of this branch
-            let leftSubtreeHeight = leftHeightArray[0];
-            let rightSubtreeHeight = leftHeightArray[1];
-            if (leftSubtreeHeight > rightSubtreeHeight) {
-                leftHeight = leftSubtreeHeight;
-            } else {
-                leftHeight = rightSubtreeHeight;
-            }
-
-            // This branch is one "up" from its subtrees, so increment its height
+            // Get the height from the subtree and increment since the branch is one "up"
+            leftHeight = leftHeightArray[0];
             leftHeight++;
 
-            // If the heightDiff from this branch is more than 2 we can stop further evaluations because the subtree
-            // isn't balanced; this sets up that check, the && in the right branch check actually does the check
-            heightDiff = leftHeightArray[2];
+            // If the heightDiff of this branch is 2 or more then this branch is unbalanced, which means we can avoid checking the right branch
+            // This sets up checking for unbalance, the && below does the check
+            heightDiff = leftHeightArray[1];
         }
 
-        if (right !== null && heightDiff <= 1) { // &&: If the left branch was unbalanced don't check the right branch
+        if (right !== null && heightDiff <= 1) { // &&: If the left branch was unbalanced don't evaluate the right branch
             // Same code as left branch, but for the right branch
             let rightHeightArray = Tree.#innerIsBalanced(right); 
             
-            let leftSubtreeHeight = rightHeightArray[0];
-            let rightSubtreeHeight = rightHeightArray[1];
-
-            if (leftSubtreeHeight > rightSubtreeHeight) {
-                rightHeight = leftSubtreeHeight;
-            } else {
-                rightHeight = rightSubtreeHeight;
-            }
-
+            rightHeight = rightHeightArray[0];
             rightHeight++;
 
-            // If this branch's subtrees weren't balanced we can skip the math for calculating a new heightDiff, so setup a check
-            heightDiff = rightHeightArray[2];
+            // Setup check to see if this branch was balanced
+            heightDiff = rightHeightArray[1];
         }
 
         // See if current node is balanced
@@ -424,7 +404,13 @@ export class Tree {
             heightDiff = Math.abs(leftHeight - rightHeight);
         }
 
-        heightArray = [leftHeight, rightHeight, heightDiff]
+        if (leftHeight > rightHeight) {
+            thisHeight = leftHeight;
+        } else {
+            thisHeight = rightHeight;
+        }
+
+        heightArray = [thisHeight, heightDiff];
         // console.log(`${currentNode.getData()} : [${heightArray}]`);
         // Logging is ok for tracing, but it breaks down once unbalance is found
         return heightArray;
