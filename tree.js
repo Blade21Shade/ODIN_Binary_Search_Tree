@@ -312,11 +312,12 @@ export class Tree {
     }
 
     static #innerDepth(value, nodeToCompare) {
-        let nodeVal = nodeToCompare.getData();
+        let nodeVal = 0;
         let foundOrMissing = false;
         let depth = 0;
 
         while (!foundOrMissing) {
+            nodeVal = nodeToCompare.getData();
             if (value < nodeVal) {
                 nodeToCompare = nodeToCompare.getLeft();
             } else if (value > nodeVal) {
@@ -331,7 +332,6 @@ export class Tree {
             }
 
             if (!foundOrMissing) {
-                nodeVal = nodeToCompare.getData();
                 depth++;
             } 
         }
