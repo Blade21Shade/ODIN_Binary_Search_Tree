@@ -128,11 +128,12 @@ export class Tree {
     }
 
     static #findInner(value, nodeToCompare) {
-        let nodeVal = nodeToCompare.getData();
+        let nodeVal;
         let foundOrMissing = false;
-        let toReturn = null; // Base case is missing, changed if found
+        let toReturn = null; // Base case is "value missing", changed if found
 
         while (!foundOrMissing) {
+            nodeVal = nodeToCompare.getData();
             if (value < nodeVal) {
                 nodeToCompare = nodeToCompare.getLeft();
             } else if (value > nodeVal) {
@@ -142,11 +143,10 @@ export class Tree {
                 toReturn = nodeToCompare;
             }
 
-            // If a node couldn't be found return, otherwise one was found this loop so update the comparison value
+            // If the next node in the tree is null the value isn't in the tree, so exit the search
             if (nodeToCompare === null) {
+                console.log(`The value: ${value} couldn't be found in the tree`)
                 foundOrMissing = true;
-            } else {
-                nodeVal = nodeToCompare.getData();
             }
         }
 

@@ -37,14 +37,13 @@ console.log(`\nOriginal\n===============================\nUpdated\n`);
 prettyPrint(tree.root);
 
 
-let isBalanced = tree.isBalanced();
-console.log(isBalanced);
+// let isBalanced = tree.isBalanced();
+// console.log(isBalanced);
 
 // Testing code
-let testVal = 15;
+let testVal = 0;
 
 // console.log(`\nOriginal\n===============================\nUpdated: ${testVal}\n`)
 
-let findVal = tree.depth(testVal);
-console.log(findVal);
+tree.find(testVal);
 // prettyPrint(tree.root);
