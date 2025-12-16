@@ -199,7 +199,7 @@ export class Tree {
 
     inOrderForEach(callback) {
         if (callback === null) {
-            throw new Error("levelOrderForEach must be given a callback function")
+            throw new Error("inOrderForEach must be given a callback function")
         }
 
         Tree.#inOrderForEachInner(callback, this.root);
@@ -207,7 +207,7 @@ export class Tree {
 
     preOrderForEach(callback) {
         if (callback === null) {
-            throw new Error("levelOrderForEach must be given a callback function")
+            throw new Error("preOrderForEach must be given a callback function")
         }
 
         Tree.#preOrderForEachInner(callback, this.root);
@@ -215,7 +215,7 @@ export class Tree {
 
     postOrderForEach(callback) {
         if (callback === null) {
-            throw new Error("levelOrderForEach must be given a callback function")
+            throw new Error("postOrderForEach must be given a callback function")
         }
 
         Tree.#postOrderForEachInner(callback, this.root);
