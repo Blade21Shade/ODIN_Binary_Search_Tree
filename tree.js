@@ -390,7 +390,7 @@ export class Tree {
 
         if (right !== null && heightDiff <= 1) { // &&: If the left branch was unbalanced don't evaluate the right branch
             // Same code as left branch, but for the right branch
-            let rightHeightArray = Tree.#innerIsBalanced(right); 
+            let rightHeightArray = Tree.#innerIsBalanced(right);
             
             rightHeight = rightHeightArray[0];
             rightHeight++;
@@ -420,18 +420,15 @@ export class Tree {
         // Store values from the tree in an array
         let values = [];
 
-        function addNodeToArray(node) {
-            values.push(node.getData());
+        function processNode(node) {
+            let val = node.getData();
+            values.push(val);
+            Tree.#deleteInner(val, node); // Should delete 'node' since its value is 'val'
         }
 
-        Tree.#inOrderForEachInner(addNodeToArray ,this.root);
+        Tree.#inOrderForEachInner(processNode ,this.root);
 
-        // Remove all values from the tree
-        for (let i = 0; i < values.length; i++) {
-            Tree.#deleteInner(values[i], this.root);
-        }
-
-        // Add values back to the tree, rebalancing it
+        // Re-create the tree
         this.root = Tree.buildTree(values);
     }
 }

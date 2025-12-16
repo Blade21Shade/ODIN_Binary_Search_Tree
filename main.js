@@ -22,23 +22,23 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 let arr = [19, 21, 23, 25, 27, 29, 31, 33];
 let tree = new Tree(arr);
 tree.insert(35);
-// for (let i = 1; i <= 9; i+=2) {
-//   tree.insert(i);
-// }
+for (let i = 1; i <= 9; i+=2) {
+  tree.insert(i);
+}
 
-// for (let i = 17; i >= 11; i-=2) {
-//   tree.insert(i);
-// }
+for (let i = 17; i >= 11; i-=2) {
+  tree.insert(i);
+}
 
 prettyPrint(tree.root);
+tree.rebalance();
 
 console.log(`\nOriginal\n===============================\nUpdated\n`);
+prettyPrint(tree.root);
+
 
 let isBalanced = tree.isBalanced();
 console.log(isBalanced);
-
-// tree.rebalance();
-// prettyPrint(tree.root);
 
 // // Testing code
 // let testVal = 17;
